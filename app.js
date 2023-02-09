@@ -1,5 +1,7 @@
 //jshint esversion: 6
 
+require('dotenv').config()
+
 const express = require('express');
 
 const bodyParser = require('body-parser');
@@ -17,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/', (req, res) => {
     res.sendFile(__dirname + "/newsletter.html")
 
-})
+});
 
 app.post('/', (req, res) => {
 
@@ -26,6 +28,7 @@ app.post('/', (req, res) => {
     const firstname = req.body.fName;
     const lastname = req.body.lName;
     const emailAddress = req.body.email;
+
     // console.log(firstname, lastname, emailAddress);
 
 
@@ -45,11 +48,11 @@ app.post('/', (req, res) => {
     const jsonData = JSON.stringify(data);
 
     // 4. Add the mailchimp url with list id
-    const url = "https://us4.api.mailchimp.com/3.0/lists/da765b99b5";
+    const url = "https://us4.api.mailchimp.com/3.0/lists/" + process.env.LIST_ID + "/";
 
     const options = {
         method: "POST",
-        auth: "bibibusiness:c6a0f06eadb19af9e84e072c0856031d-us4"
+        auth: "bibibusiness:" + process.env.API_KEY
     }
     //5. Create the https request passing in the url and options variable defined above and then adding a callback function that will respond with the data it receives and print in the server as a JSON.
     const request = https.request(url, options, function (response) {
@@ -76,18 +79,14 @@ app.post('/', (req, res) => {
 
 app.post("/failed", (req, res) => {
     res.redirect("/");
-})
+});
 
 app.post("/success", (req, res) => {
     res.redirect("/");
-})
+});
 
 
 
-app.listen('process.env.PORT || 3000', function () {
+app.listen('3000', function () {
     console.log('server is running at port 3000');
-})
-
-//API key: c6a0f06eadb19af9e84e072c0856031d-us4
-
-// list Id: da765b99b5
+});
