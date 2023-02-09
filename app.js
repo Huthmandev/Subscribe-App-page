@@ -65,18 +65,19 @@ app.post('/', (req, res) => {
 
 
         response.on("data", function (data) {
-            console.log(JSON.parse(data));
+            console.log(JSON.parse(data)); // printed on the local server
         });
 
 
 
     });
-
+    // 6. Spend the app post request (json data) to the api server.  
     request.write(jsonData);
     request.end();
 
 });
 
+//redirects the button back to root page.
 app.post("/failed", (req, res) => {
     res.redirect("/");
 });
